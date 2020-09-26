@@ -1,9 +1,8 @@
 package config
 
 import (
-	"github.com/joho/godotenv"
+	"github.com/go-ini/ini"
 	"log"
-	"os"
 )
 
 type Configuration struct {
@@ -21,23 +20,26 @@ type Configuration struct {
 	DbPassword string
 	DbName     string
 	DbPort     string
-	DbSSLMode  string
+	DbSslMode  string
 	DbTimeZone string
 }
 
 var Config = &Configuration{}
+var cfg *ini.File
 
 func Setup() {
-	err := godotenv.Load()
+	var err error
+	cfg, err = ini.Load("config/config.ini")
 	if err != nil {
-		log.Fatalf("config.Setup, Error loading .env file: %v", err)
+		log.Fatalf("config.Setup, fail to parse 'config/config.ini': %v", err)
 	}
 
-	Config.DbHost = os.Getenv("DB_HOST")
-	Config.DbUser = os.Getenv("DB_USER")
-	Config.DbPassword = os.Getenv("DB_PASS")
-	Config.DbName = os.Getenv("DB_NAME")
-	Config.DbPort = os.Getenv("DB_PORT")
-	Config.DbSSLMode = os.Getenv("DB_SSLMODE")
-	Config.DbTimeZone = os.Getenv("DB_TIMEZONE")
+	mapTo("config", Config)
+}
+
+func mapTo(section string, v interface{}) {
+	err := cfg.Section(section).MapTo(v)
+	if err != nil {
+		log.Fatalf("config.mapTo %s err: %v", section, err)
+	}
 }

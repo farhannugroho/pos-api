@@ -13,7 +13,7 @@ func InitDb() {
 	// Configure DB Connection
 	var err error
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
-		Config.DbHost, Config.DbUser, Config.DbPassword, Config.DbName, Config.DbPort, Config.DbSSLMode, Config.DbTimeZone)
+		Config.DbHost, Config.DbUser, Config.DbPassword, Config.DbName, Config.DbPort, Config.DbSslMode, Config.DbTimeZone)
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("config.InitDb, Failed to connect database")
