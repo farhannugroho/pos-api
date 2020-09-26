@@ -8,6 +8,13 @@ import (
 func InitRouter() *gin.Engine {
 	r := gin.Default()
 
+	// home route
+	r.GET("", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"server": "OK",
+		})
+	})
+
 	// api version
 	v1 := r.Group("/v1")
 	{
