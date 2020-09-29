@@ -26,6 +26,7 @@ func autoMigrate() {
 	// Auto Migrate Schema
 	err := DB.AutoMigrate(
 		&model.City{},
+		&model.BusinessType{},
 	)
 
 	if err != nil {

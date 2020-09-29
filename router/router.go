@@ -37,6 +37,10 @@ func InitRouter() *gin.Engine {
 		businessType := v1.Group("/business_types")
 		{
 			businessType.GET("", endpoint.GetAllBusinessTypes)
+			businessType.GET("/:id", endpoint.GetBusinessTypeById)
+			businessType.POST("", endpoint.CreateBusinessType)
+			businessType.PUT("", endpoint.UpdateBusinessType)
+			businessType.DELETE("/:id", endpoint.DeleteBusinessType)
 		}
 	}
 
