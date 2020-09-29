@@ -24,7 +24,20 @@ func InitRouter() *gin.Engine {
 	v1 := r.Group("/v1")
 	{
 		// City
-		v1.GET("/cities", endpoint.GetCities)
+		city := v1.Group("/cities")
+		{
+			city.GET("", endpoint.GetAllCities)
+			city.GET("/:id", endpoint.GetCityById)
+			city.POST("", endpoint.CreateCity)
+			city.PUT("", endpoint.UpdateCity)
+			city.DELETE("/:id", endpoint.DeleteCity)
+		}
+
+		// Business Type
+		businessType := v1.Group("/business_types")
+		{
+			businessType.GET("", endpoint.GetAllBusinessTypes)
+		}
 	}
 
 	return r
