@@ -72,6 +72,16 @@ func InitRouter() *gin.Engine {
 			user.PUT("", endpoint.UpdateUser)
 			user.DELETE("/:id", endpoint.DeleteUser)
 		}
+
+		// Outlet
+		outlet := v1.Group("/outlets")
+		{
+			outlet.GET("", endpoint.GetAllOutlets)
+			outlet.GET("/:id", endpoint.GetOutletById)
+			outlet.POST("", endpoint.CreateOutlet)
+			outlet.PUT("", endpoint.UpdateOutlet)
+			outlet.DELETE("/:id", endpoint.DeleteOutlet)
+		}
 	}
 
 	return r

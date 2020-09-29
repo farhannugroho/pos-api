@@ -30,6 +30,7 @@ func autoMigrate() {
 		&model.Location{},
 		&model.Company{},
 		&model.User{},
+		&model.Outlet{},
 	)
 
 	if err != nil {
