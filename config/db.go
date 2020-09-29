@@ -28,6 +28,7 @@ func autoMigrate() {
 		&model.City{},
 		&model.BusinessType{},
 		&model.Location{},
+		&model.Company{},
 	)
 
 	if err != nil {

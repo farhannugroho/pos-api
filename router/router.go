@@ -52,6 +52,16 @@ func InitRouter() *gin.Engine {
 			location.PUT("", endpoint.UpdateLocation)
 			location.DELETE("/:id", endpoint.DeleteLocation)
 		}
+
+		// Company
+		company := v1.Group("/companies")
+		{
+			company.GET("", endpoint.GetAllCompanies)
+			company.GET("/:id", endpoint.GetCompanyById)
+			company.POST("", endpoint.CreateCompany)
+			company.PUT("", endpoint.UpdateCompany)
+			company.DELETE("/:id", endpoint.DeleteCompany)
+		}
 	}
 
 	return r
