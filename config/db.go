@@ -27,6 +27,7 @@ func autoMigrate() {
 	err := DB.AutoMigrate(
 		&model.City{},
 		&model.BusinessType{},
+		&model.Location{},
 	)
 
 	if err != nil {
