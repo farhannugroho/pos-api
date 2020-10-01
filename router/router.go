@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"pos_api/router/endpoint"
@@ -8,6 +9,9 @@ import (
 
 func InitRouter() *gin.Engine {
 	r := gin.Default()
+
+	// Enable CORS
+	r.Use(cors.Default())
 
 	// Templates HTML
 	r.LoadHTMLGlob("templates/*")
