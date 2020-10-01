@@ -6,11 +6,11 @@ type User struct {
 	Name        string `json:"name"`
 	ImageUrl    string `json:"image_url"`
 	Username    string `json:"username"`
-	Password    string `json:"password"`
+	Password    string `json:"-"`
 	Pin         string `json:"pin"`
 	Address     string `json:"address"`
 	Phone       string `json:"phone"`
-	Email       string `json:"email"`
+	Email       string `gorm:"unique" json:"email"`
 	CompanyId   int    `json:"company_id"`
 	UserRolesId int    `json:"user_roles_id"`
 	IsActive    bool   `json:"is_active"`

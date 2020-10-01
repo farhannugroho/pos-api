@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"pos_api/jwt"
 	"pos_api/router/endpoint"
 )
 
@@ -24,21 +25,13 @@ func InitRouter() *gin.Engine {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
-	// API Version
-	v1 := r.Group("/v1")
+	guest := r.Group("/v1")
 	{
-		// City
-		city := v1.Group("/cities")
-		{
-			city.GET("", endpoint.GetAllCities)
-			city.GET("/:id", endpoint.GetCityById)
-			city.POST("", endpoint.CreateCity)
-			city.PUT("", endpoint.UpdateCity)
-			city.DELETE("/:id", endpoint.DeleteCity)
-		}
+		// Auth
+		guest.POST("/login", endpoint.Login)
 
 		// Business Type
-		businessType := v1.Group("/business_types")
+		businessType := guest.Group("/business_types")
 		{
 			businessType.GET("", endpoint.GetAllBusinessTypes)
 			businessType.GET("/:id", endpoint.GetBusinessTypeById)
@@ -47,8 +40,18 @@ func InitRouter() *gin.Engine {
 			businessType.DELETE("/:id", endpoint.DeleteBusinessType)
 		}
 
+		// City
+		city := guest.Group("/cities")
+		{
+			city.GET("", endpoint.GetAllCities)
+			city.GET("/:id", endpoint.GetCityById)
+			city.POST("", endpoint.CreateCity)
+			city.PUT("", endpoint.UpdateCity)
+			city.DELETE("/:id", endpoint.DeleteCity)
+		}
+
 		// Location
-		location := v1.Group("/locations")
+		location := guest.Group("/locations")
 		{
 			location.GET("", endpoint.GetAllLocations)
 			location.GET("/:id", endpoint.GetLocationById)
@@ -56,7 +59,12 @@ func InitRouter() *gin.Engine {
 			location.PUT("", endpoint.UpdateLocation)
 			location.DELETE("/:id", endpoint.DeleteLocation)
 		}
+	}
 
+	// API Version
+	v1 := r.Group("/v1")
+	v1.Use(jwt.Middleware)
+	{
 		// Company
 		company := v1.Group("/companies")
 		{

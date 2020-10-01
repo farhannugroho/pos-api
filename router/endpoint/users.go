@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"pos_api/config"
 	"pos_api/model"
+	"pos_api/util"
 )
 
 func GetAllUsers(c *gin.Context) {
@@ -36,8 +37,15 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	password, err := util.HashPassword(obj.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	obj.Password = password
+
 	if result := config.DB.Create(&obj); result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error})
+		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
 		return
 	}
 	c.JSON(http.StatusCreated, obj)
