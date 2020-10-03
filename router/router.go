@@ -29,6 +29,7 @@ func InitRouter() *gin.Engine {
 	{
 		// Auth
 		guest.POST("/login", endpoint.Login)
+		guest.POST("/register", endpoint.Register)
 
 		// Business Type
 		businessType := guest.Group("/business_types")

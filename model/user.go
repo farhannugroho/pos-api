@@ -6,7 +6,7 @@ type User struct {
 	Name        string `json:"name"`
 	ImageUrl    string `json:"image_url"`
 	Username    string `json:"username"`
-	Password    string `json:"-"`
+	Password    string `json:"password"`
 	Pin         string `json:"pin"`
 	Address     string `json:"address"`
 	Phone       string `json:"phone"`
