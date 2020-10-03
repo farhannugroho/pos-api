@@ -11,13 +11,6 @@ import (
 
 var jwtSecret []byte
 
-type Claims struct {
-	Email     string `json:"email"`
-	UserId    int    `json:"user_id"`
-	CompanyId int    `json:"company_id"`
-	jwt.StandardClaims
-}
-
 func GenerateToken(user model.User) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(3 * time.Hour)
@@ -39,7 +32,10 @@ func GenerateToken(user model.User) (string, error) {
 	return token, err
 }
 
-func ParseToken(token string) (*Claims, error) {
+func ParseToken(bearerToken string) (*Claims, error) {
+	// remove bearer prefix
+	token, _ := stripBearerPrefixFromTokenString(bearerToken)
+
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil
 	})

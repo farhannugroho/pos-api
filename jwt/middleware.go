@@ -18,15 +18,10 @@ func Middleware(c *gin.Context) {
 	}
 
 	var bearerToken = header.Authorization
-	token, err := stripBearerPrefixFromTokenString(bearerToken)
-	if err != nil {
-		msg = err.Error()
-	}
-
-	if token == "" {
+	if bearerToken == "" {
 		msg = "Token Invalid"
 	} else {
-		_, err := ParseToken(token)
+		_, err := ParseToken(bearerToken)
 		if err != nil {
 			switch err.(*jwt.ValidationError).Errors {
 			case jwt.ValidationErrorExpired:

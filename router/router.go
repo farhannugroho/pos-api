@@ -95,6 +95,16 @@ func InitRouter() *gin.Engine {
 			outlet.PUT("", endpoint.UpdateOutlet)
 			outlet.DELETE("/:id", endpoint.DeleteOutlet)
 		}
+
+		// Unit of Measurement
+		uom := v1.Group("/uom")
+		{
+			uom.GET("", endpoint.GetAllUom)
+			uom.GET("/:id", endpoint.GetUomById)
+			uom.POST("", endpoint.CreateUom)
+			uom.PUT("", endpoint.UpdateUom)
+			uom.DELETE("/:id", endpoint.DeleteUom)
+		}
 	}
 
 	return r
