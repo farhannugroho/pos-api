@@ -9,15 +9,15 @@ import (
 	"pos_api/model"
 )
 
-func GetAllCompanies(c *gin.Context) {
-	var list []model.Company
+func GetAllItemGroups(c *gin.Context) {
+	var list []model.ItemGroup
 	config.DB.Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
-func GetCompanyById(c *gin.Context) {
+func GetItemGroupById(c *gin.Context) {
 	id := c.Param("id")
-	var obj model.Company
+	var obj model.ItemGroup
 
 	// Record Not Found
 	result := config.DB.First(&obj, id)
@@ -29,22 +29,22 @@ func GetCompanyById(c *gin.Context) {
 	c.JSON(http.StatusOK, obj)
 }
 
-func CreateCompany(c *gin.Context) {
-	var obj model.Company
+func CreateItemGroup(c *gin.Context) {
+	var obj model.ItemGroup
 	if err := c.ShouldBindJSON(&obj); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if result := config.DB.Create(&obj); result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error})
+		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
 		return
 	}
 	c.JSON(http.StatusCreated, obj)
 }
 
-func UpdateCompany(c *gin.Context) {
-	var body model.Company
+func UpdateItemGroup(c *gin.Context) {
+	var body model.ItemGroup
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -68,9 +68,9 @@ func UpdateCompany(c *gin.Context) {
 	}
 }
 
-func DeleteCompany(c *gin.Context) {
+func DeleteItemGroup(c *gin.Context) {
 	id := c.Param("id")
-	var obj model.Company
+	var obj model.ItemGroup
 
 	// Record Not Found
 	result := config.DB.First(&obj, id)
@@ -79,7 +79,7 @@ func DeleteCompany(c *gin.Context) {
 		return
 	}
 
-	if err := config.DB.Where("id = ?", id).Delete(&model.Company{}).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Delete(&model.ItemGroup{}).Error; err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
 		return
 	} else {
