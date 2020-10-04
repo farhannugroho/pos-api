@@ -13,6 +13,11 @@ func GetAllCompanies(c *gin.Context) {
 	var list []model.Company
 	config.DB.Find(&list)
 	c.JSON(http.StatusOK, list)
+
+	//var list []model.UnitOfMeasurement
+	//companyId := jwt.GetClaims(c).CompanyId
+	//config.DB.Where("company_id = ? ", companyId).Find(&list)
+	//c.JSON(http.StatusOK, list)
 }
 
 func GetCompanyById(c *gin.Context) {
