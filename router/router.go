@@ -12,7 +12,11 @@ func InitRouter() *gin.Engine {
 	r := gin.Default()
 
 	// Enable CORS
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"*"},
+		AllowHeaders: []string{"*"},
+	}))
 
 	// Templates HTML
 	r.LoadHTMLGlob("templates/*")
@@ -65,7 +69,6 @@ func InitRouter() *gin.Engine {
 	// API Version
 	v1 := r.Group("/v1")
 	v1.Use(jwt.Middleware)
-	v1.Use(cors.Default())
 	{
 		// Company
 		company := v1.Group("/companies")
