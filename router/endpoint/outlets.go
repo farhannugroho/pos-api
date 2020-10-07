@@ -13,7 +13,8 @@ import (
 func GetAllOutlets(c *gin.Context) {
 	var list []model.Outlet
 	companyId := jwt.GetClaims(c).CompanyId
-	config.DB.Preload("City").Preload("Location").Where("company_id = ?", companyId).Find(&list)
+	//config.DB.Preload("City").Preload("Location").Where("company_id = ?", companyId).Find(&list)
+	config.DB.Where("company_id = ?", companyId).Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
