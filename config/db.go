@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"log"
 	"pos_api/model"
 )
 
@@ -34,9 +35,10 @@ func autoMigrate() {
 		&model.UnitOfMeasurement{},
 		&model.ItemGroup{},
 		&model.ItemCategory{},
+		&model.Item{},
 	)
 
 	if err != nil {
-		fmt.Printf("config.autoMigrate, error auto migrate: %v", err)
+		log.Fatalf("config.autoMigrate, error auto migrate: %v", err)
 	}
 }

@@ -129,6 +129,16 @@ func InitRouter() *gin.Engine {
 			itemCategory.PUT("", endpoint.UpdateItemCategory)
 			itemCategory.DELETE("/:id", endpoint.DeleteItemCategory)
 		}
+
+		// Items
+		item := v1.Group("/items")
+		{
+			item.GET("", endpoint.GetAllItems)
+			item.GET("/:id", endpoint.GetItemById)
+			item.POST("", endpoint.CreateItem)
+			item.PUT("", endpoint.UpdateItem)
+			item.DELETE("/:id", endpoint.DeleteItem)
+		}
 	}
 
 	return r
