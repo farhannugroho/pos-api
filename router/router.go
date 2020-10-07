@@ -65,6 +65,7 @@ func InitRouter() *gin.Engine {
 	// API Version
 	v1 := r.Group("/v1")
 	v1.Use(jwt.Middleware)
+	v1.Use(cors.Default())
 	{
 		// Company
 		company := v1.Group("/companies")
