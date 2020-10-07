@@ -9,15 +9,15 @@ import (
 	"pos_api/model"
 )
 
-func GetAllLocations(c *gin.Context) {
-	var list []model.Location
+func GetAllItemCategories(c *gin.Context) {
+	var list []model.ItemCategory
 	config.DB.Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
-func GetLocationById(c *gin.Context) {
+func GetItemCategoryById(c *gin.Context) {
 	id := c.Param("id")
-	var obj model.Location
+	var obj model.ItemCategory
 
 	// Record Not Found
 	result := config.DB.First(&obj, id)
@@ -29,29 +29,29 @@ func GetLocationById(c *gin.Context) {
 	c.JSON(http.StatusOK, obj)
 }
 
-func CreateLocation(c *gin.Context) {
-	var obj model.Location
+func CreateItemCategory(c *gin.Context) {
+	var obj model.ItemCategory
 	if err := c.ShouldBindJSON(&obj); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if result := config.DB.Create(&obj); result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error})
+		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
 		return
 	}
 	c.JSON(http.StatusCreated, obj)
 }
 
-func UpdateLocation(c *gin.Context) {
-	var body model.Location
+func UpdateItemCategory(c *gin.Context) {
+	var body model.ItemCategory
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	id := body.ID
-	var obj model.Location
+	var obj model.ItemCategory
 
 	// Record Not Found
 	result := config.DB.First(&obj, id)
@@ -68,9 +68,9 @@ func UpdateLocation(c *gin.Context) {
 	}
 }
 
-func DeleteLocation(c *gin.Context) {
+func DeleteItemCategory(c *gin.Context) {
 	id := c.Param("id")
-	var obj model.Location
+	var obj model.ItemCategory
 
 	// Record Not Found
 	result := config.DB.First(&obj, id)
@@ -79,7 +79,7 @@ func DeleteLocation(c *gin.Context) {
 		return
 	}
 
-	if err := config.DB.Where("id = ?", id).Delete(&model.Location{}).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Delete(&model.ItemCategory{}).Error; err != nil {
 		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
 		return
 	} else {

@@ -51,7 +51,7 @@ func UpdateItemGroup(c *gin.Context) {
 	}
 
 	id := body.ID
-	var obj model.Company
+	var obj model.ItemGroup
 
 	// Record Not Found
 	result := config.DB.First(&obj, id)

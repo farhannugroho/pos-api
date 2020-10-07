@@ -33,6 +33,7 @@ func autoMigrate() {
 		&model.Outlet{},
 		&model.UnitOfMeasurement{},
 		&model.ItemGroup{},
+		&model.ItemCategory{},
 	)
 
 	if err != nil {
