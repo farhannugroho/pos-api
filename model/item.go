@@ -10,6 +10,7 @@ type Item struct {
 	Price               float64 `json:"price"`
 	ItemGroupId         int     `json:"item_group_id"`
 	ItemCategoryId      int     `json:"item_category_id"`
+	OutletId            int     `json:"outlet_id"`
 	UnitOfMeasurementId int     `json:"unit_of_measurement_id"`
 	IsActive            bool    `json:"is_active"`
 }
