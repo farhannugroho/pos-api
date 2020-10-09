@@ -149,6 +149,16 @@ func InitRouter() *gin.Engine {
 			itemVariant.PUT("", endpoint.UpdateItemVariant)
 			itemVariant.DELETE("/:id", endpoint.DeleteItemVariant)
 		}
+
+		// Inventories
+		inventory := v1.Group("/inventories")
+		{
+			inventory.GET("", endpoint.GetAllInventories)
+			inventory.GET("/:id", endpoint.GetInventoryById)
+			inventory.POST("", endpoint.CreateInventory)
+			inventory.PUT("", endpoint.UpdateInventory)
+			inventory.DELETE("/:id", endpoint.DeleteInventory)
+		}
 	}
 
 	return r

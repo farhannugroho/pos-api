@@ -37,6 +37,7 @@ func autoMigrate() {
 		&model.ItemCategory{},
 		&model.Item{},
 		&model.ItemVariant{},
+		&model.Inventory{},
 	)
 
 	if err != nil {
