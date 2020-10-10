@@ -15,7 +15,9 @@ func InitDb() {
 	var err error
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
 		Config.DbHost, Config.DbUser, Config.DbPassword, Config.DbName, Config.DbPort, Config.DbSslMode, Config.DbTimeZone)
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
 	if err != nil {
 		panic("config.InitDb, Failed to connect database")
 	}
@@ -38,9 +40,14 @@ func autoMigrate() {
 		&model.Item{},
 		&model.ItemVariant{},
 		&model.Inventory{},
+		&model.UserRole{},
+		&model.Module{},
+		&model.SubModule{},
+		&model.UserRoleSubModule{},
 	)
 
 	if err != nil {
 		log.Fatalf("config.autoMigrate, error auto migrate: %v", err)
 	}
+
 }

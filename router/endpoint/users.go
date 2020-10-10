@@ -14,7 +14,7 @@ import (
 func GetAllUsers(c *gin.Context) {
 	var list []model.User
 	companyId := jwt.GetClaims(c).CompanyId
-	config.DB.Where("company_id = ?", companyId).Find(&list)
+	config.DB.Where("company_id = ?", companyId).Preload("UserRole").Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
@@ -24,7 +24,7 @@ func GetUserById(c *gin.Context) {
 
 	// Record Not Found
 	companyId := jwt.GetClaims(c).CompanyId
-	result := config.DB.Where("company_id = ? ", companyId).First(&obj, id)
+	result := config.DB.Where("company_id = ? ", companyId).Preload("UserRole").First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return

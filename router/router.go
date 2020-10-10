@@ -159,6 +159,36 @@ func InitRouter() *gin.Engine {
 			inventory.PUT("", endpoint.UpdateInventory)
 			inventory.DELETE("/:id", endpoint.DeleteInventory)
 		}
+
+		// User Role
+		userRole := v1.Group("/user_roles")
+		{
+			userRole.GET("", endpoint.GetAllUserRoles)
+			userRole.GET("/:id", endpoint.GetUserRoleById)
+			userRole.POST("", endpoint.CreateUserRole)
+			userRole.PUT("", endpoint.UpdateUserRole)
+			userRole.DELETE("/:id", endpoint.DeleteUserRole)
+		}
+
+		// Modules
+		module := v1.Group("/modules")
+		{
+			module.GET("", endpoint.GetAllModules)
+			module.GET("/:id", endpoint.GetModuleById)
+			module.POST("", endpoint.CreateModule)
+			module.PUT("", endpoint.UpdateModule)
+			module.DELETE("/:id", endpoint.DeleteModule)
+		}
+
+		// Sub Modules
+		subModule := v1.Group("/sub_modules")
+		{
+			subModule.GET("", endpoint.GetAllSubModules)
+			subModule.GET("/:id", endpoint.GetSubModuleById)
+			subModule.POST("", endpoint.CreateSubModule)
+			subModule.PUT("", endpoint.UpdateSubModule)
+			subModule.DELETE("/:id", endpoint.DeleteSubModule)
+		}
 	}
 
 	return r
