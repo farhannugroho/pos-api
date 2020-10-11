@@ -13,8 +13,7 @@ import (
 func GetAllOutlets(c *gin.Context) {
 	var list []model.Outlet
 	companyId := jwt.GetClaims(c).CompanyId
-	//config.DB.Preload("City").Preload("Location").Where("company_id = ?", companyId).Find(&list)
-	config.DB.Where("company_id = ?", companyId).Find(&list)
+	config.DB.Where("company_id = ?", companyId).Preload("City").Preload("Location").Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
@@ -24,7 +23,7 @@ func GetOutletById(c *gin.Context) {
 
 	// Record Not Found
 	companyId := jwt.GetClaims(c).CompanyId
-	result := config.DB.Preload("City").Preload("Location").Where("company_id = ? ", companyId).First(&obj, id)
+	result := config.DB.Where("company_id = ? ", companyId).Joins("City").Joins("Location").First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return
