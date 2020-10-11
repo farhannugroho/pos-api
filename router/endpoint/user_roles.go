@@ -13,7 +13,8 @@ import (
 func GetAllUserRoles(c *gin.Context) {
 	var list []model.UserRole
 	companyId := jwt.GetClaims(c).CompanyId
-	config.DB.Where("company_id = ?", companyId).Find(&list)
+
+	config.DB.Where("company_id = ?", companyId).Preload("Scopes").Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
@@ -23,7 +24,7 @@ func GetUserRoleById(c *gin.Context) {
 
 	// Record Not Found
 	companyId := jwt.GetClaims(c).CompanyId
-	result := config.DB.Where("company_id = ? ", companyId).First(&obj, id)
+	result := config.DB.Where("company_id = ? ", companyId).Preload("Scopes").First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return
@@ -49,13 +50,13 @@ func CreateUserRole(c *gin.Context) {
 	}
 
 	// create relation
-	for _, scopeId := range obj.Scopes {
-		var obj model.UserRoleSubModule
-		obj.UserRoleId = int(obj.ID)
-		obj.SubModuleId = scopeId
-		config.DB.Create(&obj)
 
-	}
+	//for _, scopeId := range obj.Scopes {
+	//	var obj model.UserRoleSubModule
+	//	obj.UserRoleId = int(obj.ID)
+	//	obj.SubModuleId = scopeId
+	//	config.DB.Create(&obj)
+	//}
 
 	c.JSON(http.StatusCreated, obj)
 }

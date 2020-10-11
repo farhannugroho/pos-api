@@ -10,7 +10,7 @@ type Company struct {
 	Fax            int      `json:"fax"`
 	Email          string   `json:"email"`
 	CityId         int      `json:"city_id"`
-	City           *City    `gorm:"foreignKey:CityId" json:"city"`
+	City           City     `gorm:"foreignKey:CityId" json:"city"`
 	LocationId     int      `json:"location_id"`
 	Location       Location `gorm:"foreignKey:LocationId" json:"location"`
 	BusinessTypeId int      `json:"business_type_id"`
