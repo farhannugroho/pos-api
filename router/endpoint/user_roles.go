@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"net/http"
 	"pos_api/config"
 	"pos_api/jwt"
@@ -75,7 +76,7 @@ func UpdateUserRole(c *gin.Context) {
 	id := body.ID
 	var obj model.UserRole
 	// Record Not Found
-	result := config.DB.Where("company_id = ? ", companyId).First(&obj, id)
+	result := config.DB.Where("company_id = ? ", companyId).Preload(clause.Associations).First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return

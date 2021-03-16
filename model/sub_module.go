@@ -1,7 +1,7 @@
 package model
 
 type SubModule struct {
-	ID       int    `json:"id"`
+	Model
 	Name     string `json:"name"`
 	ModuleId int    `json:"module_id"`
 }

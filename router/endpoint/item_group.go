@@ -11,7 +11,7 @@ import (
 
 func GetAllItemGroups(c *gin.Context) {
 	var list []model.ItemGroup
-	config.DB.Find(&list)
+	config.DB.Preload("UnitOfMeasurement").Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
@@ -20,7 +20,7 @@ func GetItemGroupById(c *gin.Context) {
 	var obj model.ItemGroup
 
 	// Record Not Found
-	result := config.DB.First(&obj, id)
+	result := config.DB.Joins("UnitOfMeasurement").First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return

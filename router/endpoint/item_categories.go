@@ -11,7 +11,7 @@ import (
 
 func GetAllItemCategories(c *gin.Context) {
 	var list []model.ItemCategory
-	config.DB.Preload("Items").Find(&list)
+	config.DB.Preload("ItemGroup").Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
@@ -20,7 +20,7 @@ func GetItemCategoryById(c *gin.Context) {
 	var obj model.ItemCategory
 
 	// Record Not Found
-	result := config.DB.Preload("Items").First(&obj, id)
+	result := config.DB.Preload("ItemGroup").First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return

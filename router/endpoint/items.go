@@ -11,7 +11,7 @@ import (
 
 func GetAllItems(c *gin.Context) {
 	var list []model.Item
-	config.DB.Find(&list)
+	config.DB.Preload("ItemVariant").Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
@@ -20,7 +20,7 @@ func GetItemById(c *gin.Context) {
 	var obj model.Item
 
 	// Record Not Found
-	result := config.DB.First(&obj, id)
+	result := config.DB.Preload("ItemVariant").First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return
@@ -30,16 +30,17 @@ func GetItemById(c *gin.Context) {
 }
 
 func CreateItem(c *gin.Context) {
-	var obj model.Item
+	obj := &model.Item{}
 	if err := c.ShouldBindJSON(&obj); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if result := config.DB.Create(&obj); result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
-		return
-	}
+	//
+	//obj.ItemId = int(obj.ID)
+	//if result := config.DB.Create(&obj); result.Error != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
+	//	return
+	//}
 	c.JSON(http.StatusCreated, obj)
 }
 

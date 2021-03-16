@@ -43,7 +43,6 @@ func autoMigrate() {
 		&model.UserRole{},
 		&model.Module{},
 		&model.SubModule{},
-		&model.UserRoleSubModule{},
 	)
 
 	if err != nil {

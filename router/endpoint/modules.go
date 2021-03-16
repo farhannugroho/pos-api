@@ -11,7 +11,7 @@ import (
 
 func GetAllModules(c *gin.Context) {
 	var list []model.Module
-	config.DB.Find(&list)
+	config.DB.Preload("SubModule").Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
@@ -20,7 +20,7 @@ func GetModuleById(c *gin.Context) {
 	var obj model.Module
 
 	// Record Not Found
-	result := config.DB.First(&obj, id)
+	result := config.DB.Preload("SubModule").First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return
@@ -36,6 +36,7 @@ func CreateModule(c *gin.Context) {
 		return
 	}
 
+	obj.ModuleId = int(obj.ID)
 	if result := config.DB.Create(&obj); result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error})
 		return

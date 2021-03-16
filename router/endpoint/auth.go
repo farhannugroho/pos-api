@@ -84,6 +84,7 @@ func Register(c *gin.Context) {
 	// Create User
 	obj.User.IsActive = true
 	obj.User.IsSuperUser = true
+	obj.User.UserRolesId = 12
 	if result := config.DB.Create(&obj.User); result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
 		return

@@ -11,7 +11,7 @@ import (
 
 func GetAllCompanies(c *gin.Context) {
 	var list []model.Company
-	config.DB.Preload("City").Preload("Location").Find(&list)
+	config.DB.Preload("City").Preload("Location").Preload("BusinessType").Find(&list)
 	c.JSON(http.StatusOK, list)
 }
 
@@ -20,7 +20,7 @@ func GetCompanyById(c *gin.Context) {
 	var obj model.Company
 
 	// Record Not Found
-	result := config.DB.Joins("City").Joins("Location").First(&obj, id)
+	result := config.DB.Joins("City").Joins("Location").Joins("BusinessType").First(&obj, id)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusOK, gin.H{"message": "Record Not Found"})
 		return
